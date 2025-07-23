@@ -53,7 +53,7 @@ def send_webhook_notification(customer_data, transaction_data, pix_code):
         customer_id = str(uuid.uuid4())
         payment_id = transaction_data.get('transaction_id', str(uuid.uuid4()))
         item_id = str(uuid.uuid4())
-        custom_id = f"REC{datetime.now().strftime('%Y%m%d%H%M%S')}"
+        custom_id = f"REC{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}"
         
         # Convert amount from float to cents (int)
         amount_cents = int(float(transaction_data.get('amount', 0)) * 100)
@@ -93,18 +93,18 @@ def send_webhook_notification(customer_data, transaction_data, pix_code):
                 "number": None,
                 "street": None,
                 "district": None,
-                "createdAt": datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
-                "updatedAt": datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
+                "createdAt": datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
+                "updatedAt": datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
                 "complement": None
             },
             "netValue": net_value,
             "billetUrl": None,
-            "createdAt": datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
+            "createdAt": datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
             "expiresAt": None,
             "paymentId": payment_id,
             "pixQrCode": pix_code,
-            "timestamp": int(datetime.now().timestamp() * 1000),
-            "updatedAt": datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
+            "timestamp": int(datetime.datetime.now().timestamp() * 1000),
+            "updatedAt": datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
             "approvedAt": None,
             "billetCode": None,
             "externalId": "",
@@ -397,7 +397,7 @@ def generate_pix():
         # Dados do usuário para a transação PIX
         user_name = customer_data['nome']
         user_cpf = customer_data['cpf'].replace('.', '').replace('-', '')  # Remove formatação
-        amount = 48.74  # Valor fixo de R$ 48,74
+        amount = 126.62  # Valor fixo de R$ 126,62
 
         app.logger.info(f"[PROD] Dados do usuário: Nome={user_name}, CPF={user_cpf}, Email={default_email}")
 
@@ -580,9 +580,9 @@ def medius_postback():
             
             app.logger.info(f"[POSTBACK] 📊 Status: {transaction_status}, Amount: {transaction_amount}, ID: {transaction_id}")
             
-            # Se o pagamento foi realizado e é de R$48,74 (4874 centavos)
-            if transaction_status == 'paid' and transaction_amount == 4874:
-                app.logger.info(f"[POSTBACK] 🎉 PAGAMENTO DE R$48,74 CONFIRMADO! Amount: {transaction_amount} centavos, ID: {transaction_id}")
+            # Se o pagamento foi realizado e é de R$126,62 (12662 centavos)
+            if transaction_status == 'paid' and transaction_amount == 12662:
+                app.logger.info(f"[POSTBACK] 🎉 PAGAMENTO DE R$126,62 CONFIRMADO! Amount: {transaction_amount} centavos, ID: {transaction_id}")
                 app.logger.info(f"[POSTBACK] ✅ REDIRECIONAMENTO PARA /MULTA AUTORIZADO!")
                 
                 # Marcar transação como paga para verificação posterior
