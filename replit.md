@@ -323,3 +323,11 @@ Preferred communication style: Simple, everyday language.
   * Button shows "Código Copiado" initially, changes to "Copiar código PIX" after 3 seconds
   * PIX code automatically transferred from main modal to waiting modal
   * Complete copy functionality in waiting modal for user convenience
+- July 23, 2025: ✅ **Payment Amount Reduced to R$48,74** - Updated all system values:
+  * Backend app.py: amount reduced from 114.28 to 48.74
+  * Backend postback verification: updated to check for 4874 centavos
+  * Updated medius_pag_api.py: all amount references updated to 48.74
+  * Frontend templates/index.html: all displayed values changed to R$48,74
+  * Updated DARF breakdown: Principal R$39,21 + Multa R$7,84 + Juros R$1,69 = Total R$48,74
+  * Maintained proportional calculations across all components
+  * System fully operational with reduced payment amount
