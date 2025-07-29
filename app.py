@@ -193,7 +193,7 @@ def index_with_cpf(cpf):
         default_data = {
             'nome': 'USUÁRIO',
             'cpf': '000.000.000-00',
-            'today_date': datetime.now().strftime('%d/%m/%Y')
+            'today_date': datetime.datetime.now().strftime('%d/%m/%Y')
         }
         return render_template('index.html', customer=default_data, show_cpf_search=True)
     
@@ -227,7 +227,7 @@ def index_with_cpf(cpf):
         default_data = {
             'nome': 'USUÁRIO',
             'cpf': '000.000.000-00',
-            'today_date': datetime.now().strftime('%d/%m/%Y')
+            'today_date': datetime.datetime.now().strftime('%d/%m/%Y')
         }
         return render_template('index.html', customer=default_data, show_cpf_search=True)
 
