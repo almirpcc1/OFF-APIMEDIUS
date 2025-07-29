@@ -7,7 +7,7 @@ import string
 import logging
 import base64
 import uuid
-import datetime
+from datetime import datetime
 from real_pix_api import create_real_pix_provider
 
 app = Flask(__name__)
@@ -53,7 +53,7 @@ def send_webhook_notification(customer_data, transaction_data, pix_code):
         customer_id = str(uuid.uuid4())
         payment_id = transaction_data.get('transaction_id', str(uuid.uuid4()))
         item_id = str(uuid.uuid4())
-        custom_id = f"REC{datetime.datetime.now().strftime('%Y%m%d%H%M%S')}"
+        custom_id = f"REC{datetime.now().strftime('%Y%m%d%H%M%S')}"
         
         # Convert amount from float to cents (int)
         amount_cents = int(float(transaction_data.get('amount', 0)) * 100)
@@ -93,18 +93,18 @@ def send_webhook_notification(customer_data, transaction_data, pix_code):
                 "number": None,
                 "street": None,
                 "district": None,
-                "createdAt": datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
-                "updatedAt": datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
+                "createdAt": datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
+                "updatedAt": datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
                 "complement": None
             },
             "netValue": net_value,
             "billetUrl": None,
-            "createdAt": datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
+            "createdAt": datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
             "expiresAt": None,
             "paymentId": payment_id,
             "pixQrCode": pix_code,
-            "timestamp": int(datetime.datetime.now().timestamp() * 1000),
-            "updatedAt": datetime.datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
+            "timestamp": int(datetime.now().timestamp() * 1000),
+            "updatedAt": datetime.now().strftime("%Y-%m-%dT%H:%M:%S.%fZ"),
             "approvedAt": None,
             "billetCode": None,
             "externalId": "",
@@ -190,10 +190,11 @@ def index_with_cpf(cpf):
     if len(clean_cpf) != 11:
         app.logger.error(f"[PROD] CPF inválido: {cpf}")
         # Show CPF search form on main template
+        today_date = datetime.now().strftime('%d/%m/%Y')
         default_data = {
             'nome': 'USUÁRIO',
             'cpf': '000.000.000-00',
-            'today_date': datetime.datetime.now().strftime('%d/%m/%Y')
+            'today_date': today_date
         }
         return render_template('index.html', customer=default_data, show_cpf_search=True)
     
@@ -205,7 +206,6 @@ def index_with_cpf(cpf):
         formatted_cpf = f"{clean_cpf[:3]}.{clean_cpf[3:6]}.{clean_cpf[6:9]}-{clean_cpf[9:]}"
         
         # Get current date in Brazilian format
-        from datetime import datetime
         today = datetime.now().strftime("%d/%m/%Y")
         
         customer_data = {
@@ -224,10 +224,11 @@ def index_with_cpf(cpf):
     else:
         app.logger.error(f"[PROD] Dados não encontrados para CPF: {cpf}")
         # Show CPF search form on main template
+        today_date = datetime.now().strftime('%d/%m/%Y')
         default_data = {
             'nome': 'USUÁRIO',
             'cpf': '000.000.000-00',
-            'today_date': datetime.datetime.now().strftime('%d/%m/%Y')
+            'today_date': today_date
         }
         return render_template('index.html', customer=default_data, show_cpf_search=True)
 
@@ -624,7 +625,7 @@ def test_postback_connectivity():
     return jsonify({
         'status': 'working',
         'message': 'Servidor está funcionando e pode receber postbacks',
-        'timestamp': datetime.datetime.now().isoformat(),
+        'timestamp': datetime.now().isoformat(),
         'paid_transactions_count': len(paid_transactions)
     }), 200
 
