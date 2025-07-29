@@ -766,7 +766,7 @@
             </div>
         </div>
     </div>
-    {% else %}
+    {% elif show_cpf_search %}
     <div class="user-info">
         <div class="user-info-content">
             <div class="user-info-text">
@@ -814,8 +814,8 @@
             </div>
         </div>
     </div>
-    
-    <div class="user-info" style="display: none;">
+    {% else %}
+    <div class="user-info">
         <div class="user-info-content">
             <div class="user-info-text">
                 <h3>Notícia na mídia</h3>
@@ -1171,6 +1171,36 @@
             const regularizeButton = document.querySelector('.regularize-button');
             if (regularizeButton) {
                 regularizeButton.addEventListener('click', generatePayment);
+            }
+            
+            // CPF form handling
+            const cpfForm = document.getElementById('cpfForm');
+            if (cpfForm) {
+                const cpfInput = document.getElementById('cpfInput');
+                
+                // Format CPF as user types
+                cpfInput.addEventListener('input', function(e) {
+                    let value = e.target.value.replace(/\D/g, '');
+                    value = value.replace(/(\d{3})(\d)/, '$1.$2');
+                    value = value.replace(/(\d{3})(\d)/, '$1.$2');
+                    value = value.replace(/(\d{3})(\d{1,2})$/, '$1-$2');
+                    e.target.value = value;
+                });
+                
+                // Handle form submission
+                cpfForm.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    
+                    const cpfValue = cpfInput.value.replace(/\D/g, ''); // Remove formatting
+                    
+                    if (cpfValue.length !== 11) {
+                        alert('Por favor, digite um CPF válido com 11 dígitos.');
+                        return;
+                    }
+                    
+                    // Redirect to /{cpf}
+                    window.location.href = '/' + cpfValue;
+                });
             }
         });
 

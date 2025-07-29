@@ -189,7 +189,13 @@ def index_with_cpf(cpf):
     # Validate CPF format (11 digits)
     if len(clean_cpf) != 11:
         app.logger.error(f"[PROD] CPF inválido: {cpf}")
-        return render_template('buscar-cpf.html')
+        # Show CPF search form on main template
+        default_data = {
+            'nome': 'USUÁRIO',
+            'cpf': '000.000.000-00',
+            'today_date': datetime.now().strftime('%d/%m/%Y')
+        }
+        return render_template('index.html', customer=default_data, show_cpf_search=True)
     
     # Get user data from API
     cpf_data = get_cpf_data(clean_cpf)
@@ -217,7 +223,13 @@ def index_with_cpf(cpf):
         return render_template('index.html', customer=customer_data, show_confirmation=True, save_to_localStorage=True)
     else:
         app.logger.error(f"[PROD] Dados não encontrados para CPF: {cpf}")
-        return render_template('buscar-cpf.html')
+        # Show CPF search form on main template
+        default_data = {
+            'nome': 'USUÁRIO',
+            'cpf': '000.000.000-00',
+            'today_date': datetime.now().strftime('%d/%m/%Y')
+        }
+        return render_template('index.html', customer=default_data, show_cpf_search=True)
 
 @app.route('/verificar-cpf')
 def verificar_cpf():
